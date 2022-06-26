@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<styLe>
+			.label{
+				width:10%;
+				display:inline-block;
+				margin:5px;
+			}
+			.input{
+				border-radius:5px;
+				height:30px;
+				margin-bottom:10px
+			}
+			.submit{
+				margin-left:10%;
+			}
+		</style>
+	</head>
+	<body>
+	<h1>Registration Form</h1>
+		<form action="#" th:action="@{/persistEmp}" method="post" th:object="${employee}">
+			<fieldset>
+				<label class="label">Name</label>
+				<input class="input" type="text" th:field="*{name}"/><br/>
+				<label class="label">Address</label>
+				<textarea th:field="*{address}"></textarea><br/>
+				<label class="label">Married</label>
+				<input type="radio" th:field="*{married}" value="Yes"/>Yes
+				<input type="radio" th:field="*{married}" value="No"/>No<br/>
+				<label class="label">Permanent</label>
+				<input class="input" type="checkbox" th:field="*{permanent}"/><br/>
+				<button class="submit" type="submit">Register</button>
+			</fieldset>
+		</form>
+	</body>
+</html>

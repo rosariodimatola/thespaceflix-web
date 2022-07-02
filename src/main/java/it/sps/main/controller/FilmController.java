@@ -1,22 +1,27 @@
 package it.sps.main.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 
-import it.sps.main.entities.Film;
-import it.sps.main.services.FilmService;
-import it.sps.main.services.FilmServiceImpl;
+import it.sps.main.dto.FilmDtoWeb;
+import it.sps.main.wrapper.WrapperList;
 
 @Controller
 public class FilmController {
 	
 	@Autowired
-	private FilmService filmService;
+	RestTemplateBuilder rtb;
+	
+	@Value("${url.serverbackend}")
+	private String urlBackend;
 	
 	@GetMapping("/hello")
 	public String hello(Model model) {
@@ -25,18 +30,46 @@ public class FilmController {
 		return "hello";
 	}
 	
+	
 	@GetMapping("/getAllFilms")
 	public String getAllFilm(Model model) {
-		List<Film> listaFilm = filmService.listaTuttiIFilm();
-		model.addAttribute("listaFilm", listaFilm);
-		listaFilm.get(0);
-//		for (Film film : listaFilm) { 
-//			model.addAttribute("titolo", film.getTitoloFilm());
-//			model.addAttribute("trama", film.getTrama());
-//			model.addAttribute("annoproduzione", film.getAnnoProduzione());
-//			model.addAttribute("budget", film.getBudgetFilm());
-//		}
-		return "showFilms";
-	}
+		
+		RestTemplate rt = rtb.build();
+		
+		// Mi prendo la risposta della chiamata effettuata tramite RestTemplate
+		//ResponseEntity<List<FilmDtoWeb>> responseEntity = rt.exchange(urlBackend + "/api/v1/film/findAllFilm",HttpMethod.GET,null,new ParameterizedTypeReference<List<FilmDtoWeb>>() {});
+		
+		// Inserisco in una lista il risultato della getBody (ovvero il contenuto della risposta HTTP, che nel mio caso è un array di Film)
+		//List<FilmDtoWeb> listaFilmDtoSlim = responseEntity.getBody();
+		
+		WrapperList<FilmDtoWeb> listaWrapper = rt.getForObject(urlBackend + "/api/v1/film/findAllFilm", WrapperList.class);
+		//WrapperFilmDtoWeb listaWrapper = rt.getForObject(urlBackend + "/api/v1/film/findAllFilm", WrapperFilmDtoWeb.class);
+		// Passo a thymelife tutta la lista di FilmDtoWeb, presente all'interno della variabile listaFilmDtoSlim
+		model.addAttribute("listaFilm", listaWrapper.getList());
 
+		return "showFilms";
+		
+	}
+	
+	
+	@GetMapping(value = "/create")
+	public String insertUpdate(Model model) {
+		model.addAttribute("filmDtoWeb", new FilmDtoWeb());
+		return "insertUpdate"; 
+	}
+	
+	@RequestMapping(value = "/saveFilm", method = RequestMethod.POST)
+	public String saveFilm(@ModelAttribute("filmDtoWeb") FilmDtoWeb filmDtoWeb, Model model) {
+		RestTemplate rt = rtb.build();
+		rt.postForLocation(urlBackend + "/api/v1/film/saveFilm", filmDtoWeb);
+		return getAllFilm(model);
+	}
+	
+	/*
+	@RequestMapping(value = "/persistEmp", method = RequestMethod.POST)
+	public String registerEmployee(@ModelAttribute("employee") EmployeeDto employee, Model model) {
+		model.addAttribute("employee", employee);
+	return "confirmation";
+	}
+	*/
 }

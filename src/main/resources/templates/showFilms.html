@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 	<head>
 		<head>
@@ -8,25 +9,30 @@
 	</head>
 	</head>
 	<body>
+	
 		<table class="table">
  			<thead>
     			<tr>    				
       				<th scope="col">#</th>
       				<th scope="col">Titolo</th>
       				<th scope="col">Trama</th>
+      				<th scope="col">Data di Uscita</th>
+      				<th scope="col">Anno Produzione</th>
       				<!-- <th scope="col">Launch Date</th>
       				<th scope="col">Production Year</th>
       				<th scope="col">Budget</th> -->
     			</tr>
   			</thead>
   			<tbody>
-  				<tr th:if="${listaFilm.empty}">
+  				  <tr th:if="${listaFilm.empty}">
 					<td colspan="2"> No Films Available </td>
 				</tr>
   				<tr th:each="film : ${listaFilm}">
   					<th scope="row">1</th>
 					<td><span th:text="${film.titoloFilm}"> Titolo </span></td>
 					<td><span th:text="${film.trama}"> Trama </span></td>
+					<td><span th:text="${film.dataUscita}"> Data di Uscita</span></td>
+					<td><span th:text="${film.annoProduzione}"> Anno Produzione </span></td>
 				</tr>
   			</tbody>
 		</table>

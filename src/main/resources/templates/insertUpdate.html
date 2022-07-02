@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>Inserimento Film</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Benvenuto nella pagina di inserimento del film</h1>
+            <div>
+            	  
+                <form class="myclass" action="#" th:action="@{/saveFilm}" method="post" th:object="${filmDtoWeb}">
+                <!--
+                	<div class="form-group">
+                        <input hidden="true" type="text" name="idFilm" class="form-control" id="idFilm" value="<%= film.getId() %>">
+                    </div>
+                -->
+                    <div class="form-group">
+                        <label for="inputFilm">Titolo Film</label>
+                        <input type="text" name="titoloFilm" class="form-control" id="inputNomeFilm" placeholder="titolo film" th:field="*{titoloFilm}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTrama">Trama</label>
+                        <input type="text" name="trama" class="form-control" id="inputTrama" placeholder="trama" th:field="*{trama}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAnnoDiProduzione">Anno di Produzione</label>
+                        <input type="number" name="annoDiProduzione" class="form-control" id="inputAnnoDiProduzione" placeholder="anno di produzione" th:field="*{annoProduzione}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDataDiUscita">Data di Uscita</label>
+                        <input type="date" name="dataDiUscita" id="inputDataDiUscita" placeholder="data di uscita" th:field="*{dataUscita}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBudget">Budget</label>
+                        <input type="number" name="budget" class="form-control" id="inputBudget" placeholder="budget" th:field="*{budgetFilm}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCostoAcquisto">Costo Acquisto</label>
+                        <input type="number" name="costoAcquisto" class="form-control" id="inputCostoAcquisto" placeholder="costo acquisto dvd" th:field="*{costoAcquisto}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCostoNoleggio">Costo Noleggio</label>
+                        <input type="number" name="costoNoleggio" class="form-control" id="inputCostoNoleggio" placeholder="costo noleggio" th:field="*{costoNoleggio}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCostoBiglietto">Costo Biglietto</label>
+                        <input type="number" name="costoBiglietto" class="form-control" id="inputCostoBiglietto" placeholder="costo biglietto" th:field="*{costoBiglietto}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputQuantitaNoleggio">Dvd Disponibili</label>
+                        <input type="number" name="quantitaNoleggio" class="form-control" id="inputQuantitaNoleggio" placeholder="dvd disponibili" th:field="*{quantitaNoleggioAcquistoDvd}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salva</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
